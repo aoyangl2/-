@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Card, Form, Table, Button, Container } from 'react-bootstrap';
+import * as XLSX from 'xlsx';
 
 const Admin = () => {
   const [users, setUsers] = useState([]);
@@ -36,6 +37,13 @@ const Admin = () => {
       alert('信息删除出错');
     }
   };
+
+  const handleExportToExcel = () => {
+        const ws = XLSX.utils.json_to_sheet(users);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "报名信息");
+        XLSX.writeFile(wb, "报名信息.xlsx");
+    };
 
   return (
     <>
@@ -92,6 +100,8 @@ const Admin = () => {
                                 ))}
                             </tbody>
                         </Table>
+                        <Button variant="success" className="bg-success text-white" onClick={handleExportToExcel}>打印到本地</Button>
+                        {' '}
                         <Button variant="success" className="bg-success text-white" onClick={handleDeleteAll}>删除所有报名信息</Button>
                     </Form>
                 </Card.Body>

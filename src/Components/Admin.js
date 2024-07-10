@@ -10,21 +10,28 @@ const Admin = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/users');
-        setUsers(response.data);
-      } catch (error) {
-        console.error('There was an error fetching the users:', error);
-      }
-    };
+    axios.get('http://localhost:5000/admin')
+            .then(response => {
+                setUsers(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    // const fetchUsers = async () => {
+    //   try {
+    //     const response = await axios.get('http://localhost:5000/api/users');
+    //     setUsers(response.data);
+    //   } catch (error) {
+    //     console.error('There was an error fetching the users:', error);
+    //   }
+    // };
 
-    fetchUsers();
+    // fetchUsers();
   }, []);
 
   const handleDeleteAll = async () => {
     try {
-      const response = await axios.delete('http://localhost:5000/api/users');
+      const response = await axios.delete('http://localhost:5000/delete-all');
       if (response.status === 200) {
         setUsers([]); // Clear the users state
         alert('已删除所有报名信息！');

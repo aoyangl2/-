@@ -6,8 +6,12 @@ const cors = require('cors');
 const app = express();
 const port = 5000;
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://yuangiyiliao.cn'
+  }));
 app.use(bodyParser.json());
+app.use(express.json());
+app.options('*', cors());
 
 // Create MySQL connection
 const db = mysql.createConnection({
@@ -59,6 +63,14 @@ app.delete('/delete-all', (req, res) => {
     });
 });
 
+app.post('/api/register', (req, res) => {
+    // 处理注册逻辑
+    res.status(200).send("Registration successful");
+  });
+  
+  const PORT = process.env.PORT || 5000;
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+

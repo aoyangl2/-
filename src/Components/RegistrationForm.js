@@ -28,31 +28,21 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-    // const user = { ...formData, id: uuidv4() }; // Generate a unique ID and create the user object
-    // try {
-    //   await axios.post('http://localhost:5000/api/register', user); // Send the user data to the backend
-    //   alert('报名成功!'); // Show success notification
-    //   setFormData({
-    //     name: '',
-    //     gender: '',
-    //     institution: '',
-    //     telephone: '',
-    //     position: ''
-    //   }); // Reset the form fields
-    // } catch (error) {
-    //   console.error('There was an error registering the user:', error); // Log any errors
-    //   alert('报名失败，请重试'); // Show failure notification
-    // }
-    axios.post('http://localhost:5000/register', formData)
-            .then(response => {
-                console.log(response.data);
-                alert('报名成功！');
-            })
-            .catch(error => {
-                console.error(error);
-                alert('报名失败，请重试');
-            });
-
+    const user = { ...formData, id: uuidv4() }; // Generate a unique ID and create the user object
+    try {
+      await axios.post('http://localhost:5000/api/register', user); // Send the user data to the backend
+      alert('报名成功!'); // Show success notification
+      setFormData({
+        name: '',
+        gender: '',
+        institution: '',
+        telephone: '',
+        position: ''
+      }); // Reset the form fields
+    } catch (error) {
+      console.error('There was an error registering the user:', error); // Log any errors
+      alert('报名失败，请重试'); // Show failure notification
+    }
   };
 
   return (

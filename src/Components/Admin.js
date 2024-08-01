@@ -9,7 +9,7 @@ const Admin = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get('https://120.26.81.229:5000/admin')
+    axios.get('http://120.26.81.229:5000/api/admin')
       .then(response => {
         setUsers(response.data);
       })
@@ -20,7 +20,7 @@ const Admin = () => {
 
   const handleDeleteAll = async () => {
     try {
-      const response = await axios.delete('https://120.26.81.229:5000/delete-all');
+      const response = await axios.delete('http://120.26.81.229:5000/delete-all');
       if (response.status === 200) {
         setUsers([]);
         alert('已删除所有报名信息！');

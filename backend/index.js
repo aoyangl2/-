@@ -8,7 +8,7 @@ const port = 5000;
 
 // 使用 CORS 中间件并允许指定的源
 const corsOptions ={
-    origin:'https://120.26.81.229:5000', 
+    origin:'http://120.26.81.229:5000', 
     credentials:true,            //access-control-allow-credentials:true
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'], // 允许的HTTP方法
     allowedHeaders: ['Content-Type', 'Authorization'], // 允许的请求头
@@ -58,7 +58,7 @@ app.post('/api/register', (req, res) => {
 
 // 获取所有用户（用于管理页面）
 app.get('/api/admin', (req, res) => {
-    const query = 'SELECT * FROM register_info';
+    const query = 'SELECT * FROM register_info WHERE status = "active"';
     db.query(query, (err, results) => {
         if (err) {
             return res.status(500).send(err);
@@ -69,7 +69,7 @@ app.get('/api/admin', (req, res) => {
 
 // 删除所有用户
 app.delete('/delete-all', (req, res) => {
-    const query = 'DELETE FROM register_info';
+    const query = 'UPDATE register_info SET status = "inactive" WHERE status = "active"';
     db.query(query, (err, result) => {
         if (err) {
             console.error('删除行时出错:', err);
@@ -78,6 +78,22 @@ app.delete('/delete-all', (req, res) => {
         res.send('所有行已成功删除');
     });
 });
+
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+    const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
+    db.query(query, [username, password], (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      if (results.length > 0) {
+        res.send({ success: true });
+      } else {
+        res.send({ success: false });
+      }
+    });
+  });
+
 
 // 示例注册端点（如果有重复，可删除）
 // app.post('/api/register', (req, res) => {

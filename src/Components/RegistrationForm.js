@@ -7,6 +7,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useNavigate } from 'react-router-dom';
+
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +32,7 @@ const RegistrationForm = () => {
     // const user = { ...formData, id: uuidv4() };
     const user = { ...formData};
     try {
-      await axios.post('https://120.26.81.229:5000/api/register', user);
+      await axios.post('http://120.26.81.229:5000/api/register', user);
       alert('报名成功!');
       setFormData({
         name: '',
@@ -43,14 +46,32 @@ const RegistrationForm = () => {
       alert('报名失败，请重试');
     }
   };
-
+  
+  const navigate = useNavigate();
+  
+  const handleAdminClick = () => {
+      navigate('/login');
+    };
+  
   return (
     <>
       <Navbar expand="lg" className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <Navbar.Brand href="" className="ms-5">导航栏</Navbar.Brand>
+        <Navbar.Brand href="" className="ms-5">元岐医疗</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto"></Nav>
+          <Nav className="me-auto">
+              <NavDropdown title="Link" id="navbarScrollingDropdown">
+                <NavDropdown.Item onClick={handleAdminClick}>Admin</NavDropdown.Item>
+                <NavDropdown.Item href="#action4">
+                  Another action
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action5">
+                  Something else here
+                </NavDropdown.Item>
+              </NavDropdown>
+
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
 
